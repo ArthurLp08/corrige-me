@@ -1,0 +1,84 @@
+
+
+.header{
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+    border-bottom: 2px solid #E0E9FF;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 32px;
+    background-color: #F4F7FF;
+}
+
+.container{
+    display: flex;
+    width: 100%;
+    max-width: 1024px;
+    justify-content: space-between;
+}
+
+
+.headerTitle{
+    text-decoration: none;
+    color: #34498B;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.sanfonaBotão{
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    text-align: center;
+    color: #34498B;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+}
+.sanfona{
+    display: flex;
+    flex-direction: column;
+    background-color: #F4F7FF;
+
+}
+.sanfonaConteudo{
+    display: flex;
+    max-width: 1024px;
+    width: 100%;
+    flex-direction: column;
+    align-items: start;
+}
+.sanfonaConteudo a{
+    text-decoration: none;
+    font-size: 18px;
+    margin-bottom: 32px;
+    font-weight: bold;
+    color: #34498B;
+}
+
+.sanfonaConteudo button{
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    color: #8b3440;
+}
+
+.sanfonaContainer{
+    display: flex;
+    width: 100%;
+    padding: 16px 32px;
+    position: absolute;
+    justify-content: center;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom: 2px solid #E0E9FF;
+    background-color: #F4F7FF;
+    z-index: 1;
+}

@@ -1,0 +1,66 @@
+ .container {
+     width: 100%;
+     height: calc(100dvh - 64px);
+     display: flex;
+     align-items: start;
+     justify-content: center;
+     padding: 32px;
+     text-align: left;
+ }
+
+ .content {
+     width: 100%;
+     max-width: 1024px;
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+ }
+
+ .title {
+     font-size: 24px;
+     color: #34498B;
+     margin-bottom: 8px;
+ }
+
+ .input{
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    outline: 0;
+    border: 2px solid #E0E9FF;
+    font-size: 14px;
+    text-indent: 4px;
+    margin-bottom: 8px;
+    resize: none;
+ }
+
+ .input:focus{
+    border: 2px solid #34498B;
+ }
+
+
+ .nextButton{
+    height: 45px;
+    background-color: #34498B;
+    color: #E0E9FF;
+    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    width: 100%;
+    border-radius: 8px;
+    border: 0;
+
+ }
+
+ .backButton{
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    text-align: left;
+    width: 32px;
+    color: #34498B;
+    margin-bottom: 16px;
+ }
