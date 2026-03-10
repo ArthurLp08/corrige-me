@@ -25,7 +25,7 @@ export default function Texto() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         localStorage.removeItem('Tema')
         e.preventDefault();
-        location.href = '/'
+        location.href = '/historico/redacao'
     }
 
     return (
