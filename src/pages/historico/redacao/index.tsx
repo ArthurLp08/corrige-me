@@ -10,12 +10,31 @@ import { useEffect, useState } from "react";
 export default function Redacao() {
     const [comp, setComp] = useState(1);
     const [compNota, setCompNota] = useState([120, 200, 200, 160, 120])
+    const [color, setColor] = useState('#34498B')
 
     useEffect(() => {
         if (comp <= 1) {
             setComp(1);
         } else if (comp >= 5) {
             setComp(5);
+        }
+
+        switch (comp) {
+            case 1:
+                setColor('#34498B');
+                break;
+            case 2:
+                setColor('#346b8b');
+                break;
+            case 3:
+                setColor('#34498B');
+                break;
+            case 4:
+                setColor('#346b8b');
+                break;
+            case 5:
+                setColor('#34498B');
+                break;
         }
     }, [comp])
 
@@ -47,8 +66,8 @@ export default function Redacao() {
                             <button onClick={() => setComp(comp - 1)} className={styles.sliderButton}> <FaArrowLeft size={24} /> </button>
                             <CircularProgressbar className={styles.progressBarComp} styles={buildStyles({
                                 rotation: 0.75,
-                                textColor: '#34498B',
-                                pathColor: '#34498B',
+                                textColor: color,
+                                pathColor: color,
                                 textSize: '18px',
                                 strokeLinecap: "butt"
                             })} value={compNota[comp - 1]} maxValue={200} text={compNota[comp - 1] as unknown as string} circleRatio={0.5} />
