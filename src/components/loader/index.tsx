@@ -6,7 +6,7 @@ export default function Loader() {
 
     return (
         <div className={styles.loader}>
-            <FaSpinner size={64} />
+            <div></div>
         </div>
     )
 }

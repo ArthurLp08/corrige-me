@@ -12,10 +12,14 @@
 }
 
 .loader * {
-    animation: loading 0.5s infinite;
+    animation: loading 2s infinite;
     dominant-baseline: middle;
     text-anchor: middle;
     color: #34498B;
+    border-top: 32px solid #34498B;
+    border: 32px solid #CCC;
+    width: 200px;
+    height: 200px;
 }
 
 @keyframes loading {
