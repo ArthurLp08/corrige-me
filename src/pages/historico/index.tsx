@@ -60,6 +60,7 @@ export default function Historico({ user }: HomeProps) {
                     })
 
                     setRedacoes(lista);
+                    console.log("docs:", snapshot.docs.length)
                 })
             })
         }
