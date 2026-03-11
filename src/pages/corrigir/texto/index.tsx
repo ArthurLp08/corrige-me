@@ -30,7 +30,7 @@ export default function Texto({user}: HomeProps) {
     const [c3, setC3] = useState(0);
     const [c4, setC4] = useState(0);
     const [c5, setC5] = useState(0);
-
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -64,11 +64,12 @@ export default function Texto({user}: HomeProps) {
 
             const data = response.data;
 
-            setC1(data.competencias.competencia_1);
-            setC2(data.competencias.competencia_2);
-            setC3(data.competencias.competencia_3);
-            setC4(data.competencias.competencia_4);
-            setC5(data.competencias.competencia_5);
+            setC1(data.competencias.c1);
+            setC2(data.competencias.c2);
+            setC3(data.competencias.c3);
+            setC4(data.competencias.c4);
+            setC5(data.competencias.c5);
+            setTotal(data.nota_total);
 
             console.log(data);
             console.log(c1);
@@ -86,6 +87,7 @@ export default function Texto({user}: HomeProps) {
                     c3: c3,
                     c4: c4,
                     c5: c5,
+                    total: total,
                     user: user?.email,
                     created: new Date()
                 })
