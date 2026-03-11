@@ -31,9 +31,9 @@ interface RedacaoProps {
     c5: number;
     total: number;
     user: string;
-} 
+}
 
-export default function Redacao({user}: HomeProps) {
+export default function Redacao({ user }: HomeProps) {
     const [comp, setComp] = useState(1);
     const [redacao, setRedacao] = useState(0);
     const [compNota, setCompNota] = useState([0, 0, 0, 0, 0]);
@@ -42,7 +42,7 @@ export default function Redacao({user}: HomeProps) {
     const [tema, setTema] = useState('');
 
     const searchParams = useSearchParams()
- 
+
     const id = searchParams.get('id')
 
 
@@ -96,16 +96,12 @@ export default function Redacao({user}: HomeProps) {
                         user: doc.data().user
                     })
 
-                    lista.map((item) => {
-                        setRedacao(item.total);
-                        setCompNota([item.c1, item.c2, item.c3, item.c4, item.c5]);
-                        setTema(item.tema);
-                        setData(item.created?.toLocaleDateString());
-                    })
-
-
-
-
+                })
+                lista.map((item) => {
+                    setRedacao(item.total);
+                    setCompNota([item.c1, item.c2, item.c3, item.c4, item.c5]);
+                    setTema(item.tema);
+                    setData(item.created?.toLocaleDateString());
                 })
             })
             console.log(redacao);
