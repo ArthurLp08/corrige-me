@@ -25,6 +25,7 @@ export default function Texto({ user }: HomeProps) {
     const [erro, setErro] = useState('');
     const [loading, setLoading] = useState(false);
     const [redacao, setRedacao] = useState('');
+    const [id, setId] = useState('');
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -68,6 +69,8 @@ export default function Texto({ user }: HomeProps) {
                 total: data.nota_total,
                 user: user?.email,
                 created: new Date()
+            }).then(function(docRef){
+                setId(docRef.id)
             })
 
         } catch (err) {
@@ -75,7 +78,8 @@ export default function Texto({ user }: HomeProps) {
             setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
-
+            localStorage.removeItem('Tema');
+            location.href = `/historico/redacao/id?=${id}`;
         }
     }
 
