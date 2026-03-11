@@ -3,6 +3,7 @@ import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import styles from './styles.module.css'
 import { FormEvent, useEffect } from 'react'
 import api from '@/services/api'
+import Loader from '@/components/loader'
 
 import Head from "next/head"
 import { useState } from 'react'
@@ -101,6 +102,12 @@ export default function Texto({ user }: HomeProps) {
                     <button className={styles.nextButton}>Corrigir <FaArrowRight size={24} /> </button>
                 </div>
             </form>
+            {loading ? (
+                <Loader />
+            ) : (
+                <></>
+            )}
+
         </div>
     )
 
