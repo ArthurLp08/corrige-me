@@ -3,15 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBuCxO9G5hSILxSS-NR_qexS1FUpqchDt0",
-  authDomain: "tarefas6767.firebaseapp.com",
-  projectId: "tarefas6767",
-  storageBucket: "tarefas6767.firebasestorage.app",
-  messagingSenderId: "1000185266099",
-  appId: "1:1000185266099:web:4a17bb22039248f3d515c6",
-  measurementId: "G-M0S93WTFGY"
+  apiKey: "AIzaSyCPNttTP1F5KOyJxx46QwuXNubDO5IDMvo",
+  authDomain: "corrige-me-f5f7a.firebaseapp.com",
+  projectId: "corrige-me-f5f7a",
+  storageBucket: "corrige-me-f5f7a.firebasestorage.app",
+  messagingSenderId: "1051140951313",
+  appId: "1:1051140951313:web:3a630ba45bc7d1469cd0b0"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

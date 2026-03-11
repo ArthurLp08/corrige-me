@@ -69,6 +69,9 @@ export default function Texto({user}: HomeProps) {
             setC3(data.competencias.competencia_3);
             setC4(data.competencias.competencia_4);
             setC5(data.competencias.competencia_5);
+
+            console.log(data);
+            console.log(c1);
         } catch (err) {
             console.error(err);
             setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
@@ -89,8 +92,7 @@ export default function Texto({user}: HomeProps) {
             } catch (err) {
                 console.log(err)
             } finally {
-                localStorage.removeItem('Tema');
-                location.href = '/historico/redacao';
+
             }
 
         }
