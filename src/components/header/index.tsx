@@ -3,6 +3,7 @@ import styles from './styles.module.css';
 import { FaBars } from "react-icons/fa"
 import { IoCloseSharp } from "react-icons/io5";
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
 
 export default function Header() {
 
@@ -37,7 +38,7 @@ export default function Header() {
                             <a href="/historico">
                                 Minhas Redações
                             </a>
-                            <button>Sair</button>
+                            <button onClick={() => signOut()}>Sair</button>
                         </div>
                         </div>
                     ) : (
