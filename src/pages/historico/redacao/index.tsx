@@ -108,6 +108,10 @@ export default function Redacao({user}: HomeProps) {
 
                 })
             })
+            console.log(redacao);
+            console.log(tema);
+            console.log(compNota);
+            console.log(data);
         }
 
         loadRedacao();
