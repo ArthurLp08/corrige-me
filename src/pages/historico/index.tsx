@@ -64,7 +64,7 @@ export default function Historico({ user }: HomeProps) {
             })
         }
 
-        loadRedacoes;
+        loadRedacoes();
     }, [user?.email])
 
     const [redacoes, setRedacoes] = useState<RedacaoProps[]>([])
