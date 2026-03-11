@@ -10,7 +10,7 @@ import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 
 import { db } from "@/services/firebaseConnection";
-import { addDoc, collection, query, orderBy, where, onSnapshot } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 interface HomeProps {
     user: {
@@ -59,7 +59,6 @@ export default function Historico({ user }: HomeProps) {
                     })
 
                     setRedacoes(lista);
-                    console.log("docs:", snapshot.docs.length)
                 })
             })
         }

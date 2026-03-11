@@ -9,12 +9,42 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 
+import { db } from "@/services/firebaseConnection";
+import { collection, query, orderBy, where, onSnapshot } from "firebase/firestore";
 
+import { useSearchParams } from 'next/navigation'
 
-export default function Redacao() {
+interface HomeProps {
+    user: {
+        email: string
+    }
+}
+
+interface RedacaoProps {
+    id: string;
+    created: Date;
+    tema: string;
+    c1: number;
+    c2: number;
+    c3: number;
+    c4: number;
+    c5: number;
+    total: number;
+    user: string;
+} 
+
+export default function Redacao({user}: HomeProps) {
     const [comp, setComp] = useState(1);
-    const [compNota, setCompNota] = useState([120, 200, 200, 160, 120])
-    const [color, setColor] = useState('#34498B')
+    const [redacao, setRedacao] = useState(0);
+    const [compNota, setCompNota] = useState([0, 0, 0, 0, 0]);
+    const [color, setColor] = useState('#34498B');
+    const [data, setData] = useState('');
+    const [tema, setTema] = useState('');
+
+    const searchParams = useSearchParams()
+ 
+    const id = searchParams.get('id')
+
 
     useEffect(() => {
         if (comp <= 1) {
@@ -42,6 +72,47 @@ export default function Redacao() {
         }
     }, [comp])
 
+    useEffect(() => {
+        async function loadRedacao() {
+            const redacoesRef = collection(db, "Redações");
+            const q = query(
+                redacoesRef,
+                where("id", "==", id),
+            )
+
+            onSnapshot(q, (snapshot) => {
+                let lista = [] as RedacaoProps[];
+                snapshot.forEach((doc) => {
+                    lista.push({
+                        id: doc.id,
+                        created: doc.data().created?.toDate(),
+                        tema: doc.data().tema,
+                        c1: doc.data().c1,
+                        c2: doc.data().c2,
+                        c3: doc.data().c3,
+                        c4: doc.data().c4,
+                        c5: doc.data().c5,
+                        total: doc.data().total,
+                        user: doc.data().user
+                    })
+
+                    lista.map((item) => {
+                        setRedacao(item.total);
+                        setCompNota([item.c1, item.c2, item.c3, item.c4, item.c5]);
+                        setTema(item.tema);
+                        setData(item.created?.toLocaleDateString());
+                    })
+
+
+
+
+                })
+            })
+        }
+
+        loadRedacao();
+    }, [user?.email])
+
     return (
         <div className={styles.container}>
 
@@ -52,7 +123,7 @@ export default function Redacao() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className={styles.info}>
-                <h1 className={styles.title}>Tema da redação</h1>
+                <h1 className={styles.title}>{tema}</h1>
                 <div className={styles.info}>
                     <div className={styles.cardProgress}>
                         <h2 className={styles.cardTitle}>Nota Final</h2>
@@ -62,7 +133,7 @@ export default function Redacao() {
                             pathColor: '#34498B',
                             textSize: '18px',
                             strokeLinecap: "butt"
-                        })} value={880} maxValue={1000} text="880" circleRatio={0.5} />
+                        })} value={redacao} maxValue={1000} text={redacao as unknown as string} circleRatio={0.5} />
                     </div>
                     <div className={styles.cardProgress}>
                         <h2 className={styles.cardTitle}>Competência {comp}</h2>
