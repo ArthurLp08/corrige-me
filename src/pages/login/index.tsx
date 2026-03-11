@@ -1,11 +1,14 @@
 
 import { FaGoogle } from "react-icons/fa"
 import styles from './styles.module.css'
+import { GetServerSideProps } from "next"
+import { getSession } from "next-auth/react"
 
 import Head from "next/head"
 import { signIn } from "next-auth/react"
 
 export default function Login() {
+    
     return (
         <div className={styles.container}>
             <Head>
@@ -27,4 +30,28 @@ export default function Login() {
             </div>
         </div>
     )
+
+    
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
+
+    if (session?.user) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            }
+        }
+    }
+
+
+    return {
+        props: {
+            user: {
+                email: session?.user?.email,
+            }
+        },
+    };
+};

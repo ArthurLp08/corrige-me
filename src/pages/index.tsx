@@ -5,9 +5,12 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useEffect } from "react";
 
+import { GetServerSideProps } from "next";
+import { getSession, useSession } from "next-auth/react";
+
 
 export default function Home() {
-
+    const { data: session, status } = useSession();
     useEffect(() => {
         if (typeof window !== "undefined") {
             const temaSalvo = localStorage.getItem("Tema");
@@ -15,6 +18,8 @@ export default function Home() {
               localStorage.removeItem("Tema")
             }
         }
+
+        console.log()
     }, []);
 
   return (
@@ -27,7 +32,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.info}>
-        <h1 className={styles.title}>Olá, Miguel</h1>
+        <h1 className={styles.title}>Olá, {session?.user?.name as string}</h1>
         <div className={styles.card}>
           <h2 className={styles.cardTitle}>Redações Corrigidas</h2>
           <h1 className={styles.cardNumber}>0</h1>
@@ -62,3 +67,25 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
+
+    if (!session?.user) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+
+
+    return {
+        props: {
+            user: {
+                email: session?.user?.email,
+            }
+        },
+    };
+};
