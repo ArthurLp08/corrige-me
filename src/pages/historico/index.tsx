@@ -9,36 +9,65 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 
-export default function Redacao() {
-    const [comp, setComp] = useState(1);
-    const [compNota, setCompNota] = useState([120, 200, 200, 160, 120])
-    const [color, setColor] = useState('#34498B')
+import { db } from "@/services/firebaseConnection";
+import { addDoc, collection, query, orderBy, where, onSnapshot } from "firebase/firestore";
+
+interface HomeProps {
+    user: {
+        email: string
+    }
+}
+
+interface RedacaoProps {
+    id: string;
+    created: Date;
+    tema: string;
+    c1: number;
+    c2: number;
+    c3: number;
+    c4: number;
+    c5: number;
+    total: number;
+    user: string;
+
+}
+
+export default function Historico({ user }: HomeProps) {
 
     useEffect(() => {
-        if (comp <= 1) {
-            setComp(1);
-        } else if (comp >= 5) {
-            setComp(5);
+        async function loadRedacoes() {
+            const redacoesRef = collection(db, "Redações");
+            const q = query(
+                redacoesRef,
+                orderBy("created", "desc"),
+                where("user", "==", user?.email)
+            )
+
+            onSnapshot(q, (snapshot) => {
+                let lista = [] as RedacaoProps[];
+                snapshot.forEach((doc) => {
+                    lista.push({
+                        id: doc.id,
+                        created: doc.data().created,
+                        tema: doc.data().tema,
+                        c1: doc.data().c1,
+                        c2: doc.data().c2,
+                        c3: doc.data().c3,
+                        c4: doc.data().c4,
+                        c5: doc.data().c5,
+                        total: doc.data().total,
+                        user: doc.data().user
+                    })
+
+                    setRedacoes(lista);
+                })
+            })
         }
 
-        switch (comp) {
-            case 1:
-                setColor('#34498B');
-                break;
-            case 2:
-                setColor('#346b8b');
-                break;
-            case 3:
-                setColor('#34498B');
-                break;
-            case 4:
-                setColor('#346b8b');
-                break;
-            case 5:
-                setColor('#34498B');
-                break;
-        }
-    }, [comp])
+        loadRedacoes;
+    }, [user?.email])
+
+    const [redacoes, setRedacoes] = useState<RedacaoProps[]>([])
 
     return (
         <div className={styles.container}>
@@ -51,11 +80,13 @@ export default function Redacao() {
             </Head>
             <div className={styles.info}>
                 <h1 className={styles.title}>Minhas Redações</h1>
-                <button onClick={() => location.href = '/historico/redacao'} className={styles.card}>
-                    <span>10/03/2026</span>
-                    <h2>Tema da redação</h2>
-                    <h1>880</h1>
-                </button>
+                {redacoes.map((item) => (
+                    <button key={item.id} onClick={() => location.href = `/historico/redacao?id=${item.id}`} className={styles.card}>
+                        <span>{item.created as unknown as string}</span>
+                        <h2>{item.tema}</h2>
+                        <h1>{item.total}</h1>
+                    </button>
+                ))}
             </div>
         </div>
     );
