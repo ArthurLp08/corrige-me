@@ -17,9 +17,12 @@
     text-anchor: middle;
     color: #34498B;
     border-top: 32px solid #34498B;
-    border: 32px solid #CCC;
+    border-bottom: 32px solid #CCC;
+    border-left: 32px solid #CCC;
+    border-right: 32px solid #CCC;
     width: 200px;
     height: 200px;
+    border-radius: 100%;
 }
 
 @keyframes loading {
