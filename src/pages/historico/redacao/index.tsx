@@ -6,6 +6,9 @@ import 'react-circular-progressbar/dist/styles.css';
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
+import { GetServerSideProps } from "next";
+import { getSession, useSession } from "next-auth/react";
+
 
 export default function Redacao() {
     const [comp, setComp] = useState(1);
@@ -90,3 +93,25 @@ export default function Redacao() {
         </div>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
+
+    if (!session?.user) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+
+
+    return {
+        props: {
+            user: {
+                email: session?.user?.email,
+            }
+        },
+    };
+};

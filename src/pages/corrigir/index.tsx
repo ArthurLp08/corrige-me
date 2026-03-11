@@ -6,6 +6,9 @@ import { FormEvent } from 'react'
 import Head from "next/head"
 import { useState, useEffect } from 'react'
 
+import { GetServerSideProps } from "next";
+import { getSession, useSession } from "next-auth/react";
+
 export default function Corrigir() {
 
     const [tema, setTema] = useState('');
@@ -44,3 +47,25 @@ export default function Corrigir() {
         </div>
     )
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
+
+    if (!session?.user) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            }
+        }
+    }
+
+
+    return {
+        props: {
+            user: {
+                email: session?.user?.email,
+            }
+        },
+    };
+};
