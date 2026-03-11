@@ -40,7 +40,6 @@ export default function Historico({ user }: HomeProps) {
             const q = query(
                 redacoesRef,
                 where("user", "==", user?.email),
-                orderBy("created", "desc")
             )
 
             onSnapshot(q, (snapshot) => {
