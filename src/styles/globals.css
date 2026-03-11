@@ -27,3 +27,11 @@ body {
 button{
   cursor: pointer;
 }
+
+.CircularProgressbar .CircularProgressbar-text {
+  fill: #3e98c7;
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+  transform: translateY(-15px);
+}

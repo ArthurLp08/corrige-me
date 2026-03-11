@@ -2,30 +2,60 @@
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import styles from './styles.module.css'
 import { FormEvent, useEffect } from 'react'
+import api from '@/services/api'
 
 import Head from "next/head"
 import { useState } from 'react'
 
+
 export default function Texto() {
 
     const [tema, setTema] = useState('');
+    const [erro, setErro] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [redacao, setRedacao] = useState('');
 
     useEffect(() => {
         if (typeof window !== "undefined") {
             const temaSalvo = localStorage.getItem("Tema");
             if (temaSalvo) {
                 setTema(temaSalvo);
-            }else{
+            } else {
                 location.href = '/'
             }
         }
     }, []);
 
+    const changeRedacao = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setRedacao(e.target.value);
+        console.log(redacao);
+    }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        localStorage.removeItem('Tema')
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+
+        setLoading(true);
+        setErro("");
         e.preventDefault();
-        location.href = '/historico/redacao'
+
+        try {
+            const response = await api.post("/corrigir", {
+                tema: tema,
+                texto: redacao
+            });
+
+
+            const data = response.data;
+
+            console.log(data)
+        } catch (err) {
+            console.error(err);
+            setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
+        } finally {
+            setLoading(false);
+            localStorage.removeItem('Tema')
+
+        }
     }
 
     return (
@@ -37,13 +67,14 @@ export default function Texto() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <form onSubmit={handleSubmit} className={styles.content}>
-                <button onClick={() => location.href = '/corrigir'} className={styles.backButton}><FaArrowLeft size={24}/></button>
+                <button onClick={() => location.href = '/corrigir'} className={styles.backButton}><FaArrowLeft size={24} /></button>
                 <h1 className={styles.title}>{tema}</h1>
-                <textarea placeholder='Escreva aqui a sua redação' required className={styles.input}></textarea>
+                <textarea value={redacao} onChange={changeRedacao} placeholder='Escreva aqui a sua redação' required className={styles.input}></textarea>
                 <div className={styles.buttonDiv}>
                     <button className={styles.nextButton}>Corrigir <FaArrowRight size={24} /> </button>
                 </div>
             </form>
         </div>
     )
+
 }
