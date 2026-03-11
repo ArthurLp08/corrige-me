@@ -75,7 +75,7 @@ export default function Texto({ user }: HomeProps) {
             localStorage.removeItem("Tema");
 
             // redireciona usando o id criado
-            location.href = `/historico/redacao/${docRef.id}`;
+            location.href = `/historico/redacao?id=${docRef.id}`;
 
         } catch (err) {
             console.error(err);
