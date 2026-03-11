@@ -94,7 +94,7 @@ export default function Redacao({ user }: HomeProps) {
         console.log(data);
 
         loadRedacao();
-    }, [user?.email]);
+    }, [id]);
 
     return (
         <div className={styles.container}>
