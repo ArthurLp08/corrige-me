@@ -59,7 +59,7 @@ export default function Texto({ user }: HomeProps) {
 
             const data = response.data;
 
-            await addDoc(collection(db, "Redações"), {
+            const docRef = await addDoc(collection(db, "Redações"), {
                 tema: tema,
                 c1: data.competencias.c1,
                 c2: data.competencias.c2,
@@ -69,17 +69,19 @@ export default function Texto({ user }: HomeProps) {
                 total: data.nota_total,
                 user: user?.email,
                 created: new Date()
-            }).then(function(docRef){
-                setId(docRef.id)
-            })
+            });
+
+
+            localStorage.removeItem("Tema");
+
+            // redireciona usando o id criado
+            location.href = `/historico/redacao/${docRef.id}`;
 
         } catch (err) {
             console.error(err);
             setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
-            localStorage.removeItem('Tema');
-            location.href = `/historico/redacao/id?=${id}`;
         }
     }
 
