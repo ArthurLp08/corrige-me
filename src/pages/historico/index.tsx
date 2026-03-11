@@ -39,8 +39,8 @@ export default function Historico({ user }: HomeProps) {
             const redacoesRef = collection(db, "Redações");
             const q = query(
                 redacoesRef,
-                orderBy("created", "desc"),
-                where("user", "==", user?.email)
+                where("user", "==", user?.email),
+                orderBy("created", "desc")
             )
 
             onSnapshot(q, (snapshot) => {
@@ -48,7 +48,7 @@ export default function Historico({ user }: HomeProps) {
                 snapshot.forEach((doc) => {
                     lista.push({
                         id: doc.id,
-                        created: doc.data().created,
+                        created: doc.data().created?.toDate(),
                         tema: doc.data().tema,
                         c1: doc.data().c1,
                         c2: doc.data().c2,
@@ -82,7 +82,7 @@ export default function Historico({ user }: HomeProps) {
                 <h1 className={styles.title}>Minhas Redações</h1>
                 {redacoes.map((item) => (
                     <button key={item.id} onClick={() => location.href = `/historico/redacao?id=${item.id}`} className={styles.card}>
-                        <span>{item.created as unknown as string}</span>
+                        <span>{item.created?.toLocaleDateString()}</span>
                         <h2>{item.tema}</h2>
                         <h1>{item.total}</h1>
                     </button>
