@@ -3,6 +3,7 @@ import { FaGoogle } from "react-icons/fa"
 import styles from './styles.module.css'
 
 import Head from "next/head"
+import { signIn } from "next-auth/react"
 
 export default function Login() {
     return (
@@ -19,7 +20,7 @@ export default function Login() {
                     <h2 className={styles.loginSubtitle}>Entre para corrigir suas redações com IA</h2>
                 </div>
 
-                <button className={styles.loginButton}><FaGoogle size={24} />Entrar com Google</button>
+                <button onClick={() => signIn('google')} className={styles.loginButton}><FaGoogle size={24} />Entrar com Google</button>
                 <div className={styles.loginFooter}>
                     <p className={styles.loginParag}>Login seguro com autenticação Google</p>
                 </div>
