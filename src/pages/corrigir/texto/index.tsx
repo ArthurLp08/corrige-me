@@ -13,24 +13,18 @@ import { getSession, useSession } from "next-auth/react";
 import { db } from "@/services/firebaseConnection";
 import { addDoc, collection } from "firebase/firestore";
 
-interface HomeProps{
-    user:{
+interface HomeProps {
+    user: {
         email: string
     }
 }
 
-export default function Texto({user}: HomeProps) {
+export default function Texto({ user }: HomeProps) {
 
     const [tema, setTema] = useState('');
     const [erro, setErro] = useState('');
     const [loading, setLoading] = useState(false);
     const [redacao, setRedacao] = useState('');
-    const [c1, setC1] = useState(0);
-    const [c2, setC2] = useState(0);
-    const [c3, setC3] = useState(0);
-    const [c4, setC4] = useState(0);
-    const [c5, setC5] = useState(0);
-    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -64,38 +58,23 @@ export default function Texto({user}: HomeProps) {
 
             const data = response.data;
 
-            setC1(data.competencias.c1);
-            setC2(data.competencias.c2);
-            setC3(data.competencias.c3);
-            setC4(data.competencias.c4);
-            setC5(data.competencias.c5);
-            setTotal(data.nota_total);
+            await addDoc(collection(db, "Redações"), {
+                tema: tema,
+                c1: data.competencias.c1,
+                c2: data.competencias.c2,
+                c3: data.competencias.c3,
+                c4: data.competencias.c4,
+                c5: data.competencias.c5,
+                total: data.nota_total,
+                user: user?.email,
+                created: new Date()
+            })
 
-            console.log(data);
-            console.log(c1);
         } catch (err) {
             console.error(err);
             setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
-
-            try {
-                await addDoc(collection(db, "Redações"), {
-                    tema: tema,
-                    c1: c1,
-                    c2: c2,
-                    c3: c3,
-                    c4: c4,
-                    c5: c5,
-                    total: total,
-                    user: user?.email,
-                    created: new Date()
-                })
-            } catch (err) {
-                console.log(err)
-            } finally {
-
-            }
 
         }
     }
