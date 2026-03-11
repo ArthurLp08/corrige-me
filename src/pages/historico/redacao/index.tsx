@@ -10,6 +10,7 @@ import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 
 
+
 export default function Redacao() {
     const [comp, setComp] = useState(1);
     const [compNota, setCompNota] = useState([120, 200, 200, 160, 120])

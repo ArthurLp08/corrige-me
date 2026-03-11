@@ -10,12 +10,27 @@ import { useState } from 'react'
 import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 
-export default function Texto() {
+import { db } from "@/services/firebaseConnection";
+import { addDoc, collection } from "firebase/firestore";
+
+interface HomeProps{
+    user:{
+        email: string
+    }
+}
+
+export default function Texto({user}: HomeProps) {
 
     const [tema, setTema] = useState('');
     const [erro, setErro] = useState('');
     const [loading, setLoading] = useState(false);
     const [redacao, setRedacao] = useState('');
+    const [c1, setC1] = useState(0);
+    const [c2, setC2] = useState(0);
+    const [c3, setC3] = useState(0);
+    const [c4, setC4] = useState(0);
+    const [c5, setC5] = useState(0);
+
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -49,13 +64,34 @@ export default function Texto() {
 
             const data = response.data;
 
-            console.log(data)
+            setC1(data.competencias.competencia_1);
+            setC2(data.competencias.competencia_2);
+            setC3(data.competencias.competencia_3);
+            setC4(data.competencias.competencia_4);
+            setC5(data.competencias.competencia_5);
         } catch (err) {
             console.error(err);
             setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
-            localStorage.removeItem('Tema')
+
+            try {
+                await addDoc(collection(db, "Redações"), {
+                    tema: tema,
+                    c1: c1,
+                    c2: c2,
+                    c3: c3,
+                    c4: c4,
+                    c5: c5,
+                    user: user?.email,
+                    created: new Date()
+                })
+            } catch (err) {
+                console.log(err)
+            } finally {
+                localStorage.removeItem('Tema');
+                location.href = '/historico/redacao';
+            }
 
         }
     }
