@@ -2,8 +2,6 @@ import Link from "next/link"
 import styles from './styles.module.css'
 import Head from "next/head"
 
-import { GetServerSideProps } from "next";
-import { getSession, useSession } from "next-auth/react";
 
 export default function NotFound() {
     return (
@@ -25,25 +23,3 @@ export default function NotFound() {
         </div>
     )
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-    const session = await getSession({ req });
-
-    if (!session?.user) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            }
-        }
-    }
-
-
-    return {
-        props: {
-            user: {
-                email: session?.user?.email,
-            }
-        },
-    };
-};
