@@ -80,7 +80,7 @@ export default function Texto({ user }: HomeProps) {
 
         } catch (err) {
             console.error(err);
-            setErro("Não foi possível corrigir a redação. Tente novamente mais tarde.");
+            window.alert("Não foi possível corrigir a redação. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
         }
